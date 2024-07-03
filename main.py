@@ -4,39 +4,27 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 import logging
+import ezcord
 
-intents = discord.Intents.default()
 
-
-bot = discord.Bot()
+bot = ezcord.Bot(
+    intents=discord.Intents.default(),
+    error_webhook_url = input(str("Webhook Url: ")),  # Replace with your webhook URL
+    default_language="en"
+)
 
 log_dir = r"/home/henry/PollBot"
 
 
-
-log_file = os.path.join(log_dir, 'bot.log')
-logging.basicConfig(filename=log_file, level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
-
-@bot.event
-async def on_ready():
-    logging.info(f'{bot.user} has connected to Discord!')
-    logging.info(f"Ping or Latency is {round(bot.latency * 1000)}ms")
-    logging.info(f"Pending commands{bot._pending_application_commands}")
-    logging.info(f"Slash or application commands{bot._application_commands}")
-    logging.info(f"Prefixed commands {bot.commands}")
-    print(f'{bot.user} has connected to Discord!')
+# Bot class with the search command
+class MyBot(discord.Bot):
+    async def on_ready(self):
+        # Register the slash command (replace "search" with your desired command name)
+        await self.application_command.sync()  
+        print(f"Logged in as {self.user}")
 
 
 
-cogs_list = [
-    'Search'
-]
-
-
-for cog in cogs_list:
-    bot.load_extension(f'cogs.{cog}')
-    print(f'loaded the cog of the century: {cog}')
-
-
-
-bot.run(os.getenv("DISCORD_TOKEN"))
+if __name__ == "__main__":
+    bot.load_cogs("cogs")  # Load all cogs in the "cogs" folder
+    bot.run(os.getenv("DISCORD_TOKEN"))

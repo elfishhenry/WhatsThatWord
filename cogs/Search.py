@@ -3,7 +3,8 @@ from discord.ext import commands
 import requests
 import random
 import json
-
+import ezcord
+import aiohttp
 
 class Search(commands.Cog): # create a class for our cog that inherits from commands.Cog
     # this class is used to create a cog, which is a module that can be added to the bot
@@ -11,7 +12,34 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
     def __init__(self, bot): # this is a special method that is called when the cog is loaded
         self.bot = bot
 
-    
+    @commands.slash_command(name="search_app", description="Search for a Discord bot in the app directory")
+    async def search_app(self, ctx):
+        # Hypothetical API endpoint for searching Discord's app directory
+        api_url = f"https://discord.com/application-directory/"
+
+        await ctx.respond(api_url)
+
+    '''        async with aiohttp.ClientSession() as session:
+                async with session.get(api_url) as response:
+                    if response.status == 200:
+                        if response.content_type == 'application/json':
+                            data = await response.json()
+                            # Process and format the data as needed
+                            if data['results']:
+                                app_info = data['results'][0]  # Example to get the first result
+                                app_details = (
+                                    f"**Name**: {app_info['name']}\n"
+                                    f"**Description**: {app_info['description']}\n"
+                                    f"**URL**: {app_info['url']}"
+                                )
+                            else:
+                                app_details = "No app found with that name."
+                        else:
+                            app_details = "Unexpected content type received."
+                    else:
+                        app_details = "Failed to retrieve data from the app directory."
+
+            await ctx.respond(f"Search result for '{app_name}':\n{app_details}")'''
 
     @commands.slash_command(name="urban", description="Get the definition of a term(word) from Urban Dictionary.")
     async def urban(self, ctx, *, word: str):
@@ -31,7 +59,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
 
         # Check if the API returned any definitions
         if not data["list"]:
-            await ctx.send(f"No definitions found for '{word}'.")
+            await ctx.respond(f"No definitions found for '{word}'.")
             return
 
         result = data["list"]

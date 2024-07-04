@@ -1,0 +1,43 @@
+{
+  "components": [
+    {
+      "data": {
+        "contents_checksum": "a3c7d039ffa798e43a3acb15670156e837d4f868e76627601f910177bcea481b",
+        "source": "",
+        "type": "tar"
+      },
+      "dependencies": [
+        "gke-gcloud-auth-plugin",
+        "kubectl"
+      ],
+      "details": {
+        "description": "Provides kubectl executables.",
+        "display_name": "kubectl"
+      },
+      "id": "kubectl-linux-x86_64",
+      "is_configuration": false,
+      "is_hidden": true,
+      "is_required": false,
+      "platform": {
+        "architectures": [
+          "x86_64"
+        ],
+        "operating_systems": [
+          "LINUX"
+        ]
+      },
+      "platform_required": true,
+      "version": {
+        "build_number": 20240624182041,
+        "version_string": "1.27.15"
+      }
+    }
+  ],
+  "revision": 20240628141907,
+  "schema_version": {
+    "no_update": false,
+    "url": "https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz",
+    "version": 3
+  },
+  "version": "483.0.0"
+}

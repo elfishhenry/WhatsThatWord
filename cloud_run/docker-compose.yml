@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  pollbot:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - YTDATA_API=${YTDATA_API}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_PROJECT_ID=${GEMINI_PROJECT_ID}
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - ERROR_WEBHOOK_URL=${ERROR_WEBHOOK_URL}
+      - FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
+      - DATABASE_URL=${DATABASE_URL}
+      - REQUESTS_VERSION=2.32.3  # Set the desired version
+    depends_on:
+      - database
+  database:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=database
+      - DOCKER_HOST=tcp://localhost:22

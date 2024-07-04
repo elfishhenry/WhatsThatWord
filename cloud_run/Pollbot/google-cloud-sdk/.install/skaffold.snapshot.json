@@ -1,0 +1,45 @@
+{
+  "components": [
+    {
+      "dependencies": [
+        "kubectl",
+        "skaffold-darwin-arm",
+        "skaffold-darwin-x86_64",
+        "skaffold-linux-arm",
+        "skaffold-linux-x86_64",
+        "skaffold-windows-x86_64"
+      ],
+      "details": {
+        "description": "Provides skaffold executable.  See https://skaffold.dev/",
+        "display_name": "Skaffold"
+      },
+      "id": "skaffold",
+      "is_configuration": false,
+      "is_hidden": false,
+      "is_required": false,
+      "platform": {
+        "architectures": [
+          "arm",
+          "x86_64"
+        ],
+        "operating_systems": [
+          "LINUX",
+          "MACOSX",
+          "WINDOWS"
+        ]
+      },
+      "platform_required": false,
+      "version": {
+        "build_number": 0,
+        "version_string": "2.11.1"
+      }
+    }
+  ],
+  "revision": 20240628141907,
+  "schema_version": {
+    "no_update": false,
+    "url": "https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz",
+    "version": 3
+  },
+  "version": "483.0.0"
+}

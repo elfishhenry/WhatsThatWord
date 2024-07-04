@@ -15,7 +15,7 @@ COPY . .
 
 
 ENV FLASK_APP=app.py 
-ENV FLASK_ENV=development
+
 
 # Run app.py when the container launches
 CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]

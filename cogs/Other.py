@@ -28,7 +28,7 @@ class Other(commands.Cog):
         }, 
     )
     async def quote(self, ctx, message: discord.Message):
-        embed = discord.Embed(description=f">{message.id}\n- {message.content}\n- {message.author.mention}", color=discord.Color.blue())
+        embed = discord.Embed(description=f">Message id: **{message.id}**\n- Quoted message:__{message.content}__\n- Quoted person: {message.author.mention}", color=discord.Color.blue())
         embed.set_footer(text=f"{message.author.mention} just got quoted!")
         await ctx.respond(embed=embed)
 

@@ -20,6 +20,20 @@ class Other(commands.Cog):
         self.bot = bot
 
 
+    @commands.message_command(
+        name="Quote",
+        integration_types={
+            discord.IntegrationType.guild_install,
+            discord.IntegrationType.user_install,
+        }, 
+    )
+    async def quote(self, ctx, message: discord.Message):
+        embed = discord.Embed(description=f">{message.id}\n- {message.content}\n- {message.author.mention}", color=discord.Color.blue())
+        embed.set_footer(text=f"{message.author.mention} just got quoted!")
+        await ctx.respond(embed=embed)
+
+
+
     @commands.user_command(
         name="Account Creation Date",
         integration_types={

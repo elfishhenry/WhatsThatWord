@@ -18,8 +18,29 @@ webhook_url = os.getenv("WEBHOOK_URL")
 class Other(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        
-    # command to send feedback to the bot developer via a webhook
+
+
+    @commands.user_command(
+        name="Account Creation Date",
+        integration_types={
+            discord.IntegrationType.guild_install,
+            discord.IntegrationType.user_install,
+        },                           
+    ) 
+    async def account_creation_date(self, ctx, member: discord.Member):
+        await ctx.respond(f"{member.name}'s account was created on {member.created_at}")
+
+
+    @commands.message_command(
+        name="Get Message ID",
+        integration_types={
+            discord.IntegrationType.guild_install,
+            discord.IntegrationType.user_install,
+        }, 
+    )
+    async def get_message_id(self, ctx, message: discord.Message):
+        await ctx.respond(f"Message ID: `{message.id}`")
+
 
     @commands.slash_command(
             name="feedback", 

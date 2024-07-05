@@ -19,17 +19,23 @@ model = genai.GenerativeModel('gemini-1.5-flash')
 
 
 
-class Gemini(commands.Cog): # create a class for our cog that inherits from commands.Cog
-    # this class is used to create a cog, which is a module that can be added to the bot
+class Gemini(commands.Cog): 
 
-    def __init__(self, bot): # this is a special method that is called when the cog is loaded
+    def __init__(self, bot): 
         self.bot = bot
 
-    @commands.slash_command(name="ai", description="Ask ai something")
+    @commands.slash_command(
+        name="ai", 
+        description="Ask ai something",
+        integration_types={
+            discord.IntegrationType.guild_install,
+            discord.IntegrationType.user_install,
+        }, 
+    )
     async def ai(self, ctx, prompt: str):
         await ctx.response.defer()
         response = model.generate_content(prompt, stream=True)
-        full_response = ""  # Create an empty string to store the response chunks
+        full_response = ""  
 
         for chunk in response:
             full_response += chunk.text
@@ -57,5 +63,5 @@ class Gemini(commands.Cog): # create a class for our cog that inherits from comm
             
 
 
-def setup(bot): # this is called by Pycord to setup the cog
-    bot.add_cog(Gemini(bot)) # add the cog to the bot
+def setup(bot): 
+    bot.add_cog(Gemini(bot)) 

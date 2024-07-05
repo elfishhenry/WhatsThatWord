@@ -16,7 +16,14 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
     def __init__(self, bot): # this is a special method that is called when the cog is loaded
         self.bot = bot
 
-    @commands.slash_command(name="youtube", description="Search YouTube videos, returns a selected amount of results")
+    @commands.slash_command(
+        name="youtube", 
+        description="Search YouTube videos, returns a selected amount of results",
+        integration_types={
+            discord.IntegrationType.guild_install,
+            discord.IntegrationType.user_install,
+        }, 
+    )
     async def youtube(self, ctx, *, query: str, limit: int):
         api_key = os.getenv("YTDATA_API")
         youtube = build('youtube', 'v3', developerKey=api_key)
@@ -39,7 +46,14 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
                 
                 await ctx.respond(content=video_url, embed=embed)
 
-    @commands.slash_command(name="urban", description="Get the definition of a term(word) from Urban Dictionary.")
+    @commands.slash_command(
+        name="urban", 
+        description="Get the definition of a term(word) from Urban Dictionary.",
+        integration_types={
+            discord.IntegrationType.guild_install,
+            discord.IntegrationType.user_install,
+        }, 
+    )
     async def urban(self, ctx, *, word: str):
         """
         Fetch and display a definition from Urban Dictionary.
@@ -86,7 +100,14 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
         # Send the embed with the button as a view
         await ctx.respond(embed=embed, view=view)
 
-    @commands.slash_command(name="google", description="Search Google and return the top 10 results")
+    @commands.slash_command(
+        name="google", 
+        description="Search Google and return the top 10 results",
+        integration_types={
+            discord.IntegrationType.guild_install,
+            discord.IntegrationType.user_install,
+        }, 
+    )
     async def google_search(self, ctx: discord.ApplicationContext, query: str):
         await ctx.response.defer()  # Defer the response to give us time to get the search results
         results = list(search(query, num_results=9))

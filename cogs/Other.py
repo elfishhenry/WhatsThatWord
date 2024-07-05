@@ -6,7 +6,8 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 import os
 from urllib.parse import quote_plus
-
+import aiohttp
+from discord import Webhook
 
 load_dotenv()
 
@@ -30,11 +31,11 @@ class Other(commands.Cog):
                 )
     async def feedback(self, ctx, *, feedback: str):
         await ctx.respond("Thanks for the feedback! I'll pass it along to the developer.")
-
-        # Create a session specifically for this webhook request
-        with requests.Session() as session:
-            webhook = discord.Webhook.from_url(webhook_url, session=session)
-            await webhook.send(f"Feedback from {ctx.author.name} ({ctx.author.id}): {feedback}")
+        async with aiohttp.ClientSession() as session:
+            
+        # No need to create a separate session here
+            webhook = Webhook.from_url(webhook_url, session=session)  
+            await webhook.send(f"Feedback from {ctx.author.name} ({ctx.author.id}): {feedback}") 
 
     # command to get the current time
     @commands.slash_command(

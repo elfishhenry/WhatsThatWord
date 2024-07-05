@@ -111,7 +111,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
     async def google_search(self, ctx: discord.ApplicationContext, query: str):
         await ctx.response.defer()  # Defer the response to give us time to get the search results
         results = list(search(query, num_results=9))
-        print(results)
+        #print(results)
 
         unique_results = []
         seen_urls = set()

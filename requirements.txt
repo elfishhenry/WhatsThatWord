@@ -1,6 +1,6 @@
 aiohttp==3.9.5
 beautifulsoup4==4.12.3
-py-cord==2.5.1.dev67+gec3cf165
+git+https://github.com/Pycord-Development/pycord
 ezcord==0.6.4
 google_api_python_client==2.136.0
 googlesearch_python==1.2.4

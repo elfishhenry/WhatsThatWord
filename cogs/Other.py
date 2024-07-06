@@ -20,19 +20,34 @@ class Other(commands.Cog):
         self.bot = bot
 
 
-    @commands.message_command(
-        name="Quote",
+    @commands.user_command(
+        name="Server Info",
         integration_types={
             discord.IntegrationType.guild_install,
             discord.IntegrationType.user_install,
-        }, 
-    )
-    async def quote(self, ctx, message: discord.Message):
-        embed = discord.Embed(description=f">Message id: **{message.id}**\n- Quoted message:__{message.content}__\n- Quoted person: {message.author.mention}", color=discord.Color.blue())
-        embed.set_footer(text=f"{message.author.mention} just got quoted!")
+        },                           
+    ) 
+    async def server_info(self, ctx, member: discord.Member):
+        # Check if the command is used in a server
+        if ctx.guild is None:
+            await ctx.respond("This command can only be used in a server.")
+            return
+
+        # Get the guild from the context
+        guild = ctx.guild
+
+        # Create the embed
+        embed = discord.Embed(title=f"{guild.name}'s Server Information", color=discord.Color.blue())
+        embed.set_thumbnail(url=guild.icon.url if guild.icon else None)
+        embed.add_field(name="Server ID:", value=guild.id, inline=False)
+        # Removed embed.add_field(name="Owner:", value=guild.owner.mention, inline=False)
+        embed.add_field(name="Created At:", value=guild.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+        embed.add_field(name="Member Count:", value=guild.member_count, inline=False)
+        embed.add_field(name="Text Channels:", value=len(guild.text_channels), inline=True)
+        embed.add_field(name="Voice Channels:", value=len(guild.voice_channels), inline=True)
+        embed.add_field(name="Roles:", value=len(guild.roles), inline=True)
+
         await ctx.respond(embed=embed)
-
-
 
     @commands.user_command(
         name="Account Creation Date",

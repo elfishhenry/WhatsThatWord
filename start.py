@@ -11,7 +11,7 @@ if __name__ == "__main__":
     commands = [
         "python3 main.py",
         "python3 app.py",
-        "ngrok http 5000"
+        "ngrok http --domain=intimate-abnormally-bedbug.ngrok-free.app 5000"
     ]
 
     # Start each command in a separate process

@@ -17,29 +17,44 @@ class RTFD(commands.Cog):
     )
     @commands.is_owner()
     async def rtfd(self, ctx, message: discord.Message):
-        # Define the buttons and their corresponding URLs
-        buttons = [
-            discord.ui.Button(label="Pycord", url="https://docs.pycord.dev/en/stable/", style=discord.ButtonStyle.link),
-            discord.ui.Button(label="discord.py", url="https://discordpy.readthedocs.io/en/stable/", style=discord.ButtonStyle.link),
-            discord.ui.Button(label="Python 3", url="https://docs.python.org/3/", style=discord.ButtonStyle.link),
-            discord.ui.Button(label="discord.js", url="https://discord.js.org/", style=discord.ButtonStyle.link),
-            discord.ui.Button(label="Discord", url="https://discord.com/developers/docs/intro", style=discord.ButtonStyle.link),
+        # Define the options for the select menu
+        options = [
+            discord.SelectOption(label="py-cord", value="https://docs.pycord.dev/en/stable/", description="Documentation for the py-cord library."),
+            discord.SelectOption(label="discord.py", value="https://discordpy.readthedocs.io/en/stable/", description="Documentation for the discord.py library."),
+            discord.SelectOption(label="Python 3", value="https://docs.python.org/3/", description="Documentation for Python 3."),
+            discord.SelectOption(label="discord.js", value="https://discord.js.org/", description="Documentation for the discord.js library."),
+            discord.SelectOption(label="Discord", value="https://discord.com/developers/docs/intro", description="Official Discord API documentation."),
         ]
 
-        # Create a view to hold the buttons
+        # Create the select menu
+        select = discord.ui.Select(
+            placeholder="Choose a documentation:",
+            options=options
+        )
+
+        # Define a callback function for when an option is selected
+        async def select_callback(interaction: discord.Interaction):
+            # Get the selected option's value (which is the URL)
+            selected_url = interaction.data["values"][0]
+
+            # Send the URL to the user who invoked the command
+            await interaction.response.send_message(f"Here's the documentation you selected: {selected_url}", ephemeral=True)
+
+        # Set the callback function for the select menu
+        select.callback = select_callback
+
+        # Create a view to hold the select menu
         view = discord.ui.View()
-        for button in buttons:
-            view.add_item(button)
+        view.add_item(select)
 
         # Get the bot's application info (which includes the owner)
         app_info = await self.bot.application_info()
         owner = app_info.owner  # Get the owner object
         owner_name = "<@844984362008838244>"
 
-
-        # Send the message with the buttons, pinging the user
+        # Send the message with the select menu, pinging the user
         await ctx.respond(f"**{message.author.mention}, **Choose a documentation:** **Want a new documentation added? Tell **{owner_name}**!", view=view)
-
+    
     @rtfd.error
     async def secret_error(self, ctx: discord.ApplicationContext, error: discord.DiscordException):
         if isinstance(error, commands.NotOwner):

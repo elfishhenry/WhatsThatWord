@@ -8,6 +8,9 @@ import os
 from urllib.parse import quote_plus
 import aiohttp
 from discord import Webhook
+import io
+from io import BytesIO
+
 
 load_dotenv()
 
@@ -164,6 +167,41 @@ class Other(commands.Cog):
             await ctx.followup.send(f"An error occurred while fetching the GIF: {e}")
         except json.decoder.JSONDecodeError as e:
             await ctx.followup.send(f"Invalid response from Tenor API: {e}")
+
+    @commands.slash_command(
+        name="image",
+        description="Send an image as an attachment",
+        integration_types={
+            discord.IntegrationType.guild_install,
+            discord.IntegrationType.user_install,
+        },
+    )
+    async def image(self, ctx, attachment: discord.Attachment):
+        """Sends the provided attachment.
+
+        Args:
+            attachment (discord.Attachment): The image attachment to send.
+        """
+        await ctx.response.defer()
+
+        # Check if the attachment is actually an image
+        if attachment.content_type and attachment.content_type.startswith('image/'):
+            try:
+                # Read the image data from the attachment
+                image_data = await attachment.read()
+
+                # Create a Discord file object from the image data
+                image_file = discord.File(fp=BytesIO(image_data), filename=attachment.filename)
+
+                # Send the image as an attachment
+                await ctx.followup.send(file=image_file)
+
+                # Check if the file exists before attempting to delete
+
+            except Exception as e:
+                await ctx.followup.send(f"An error occurred while processing the image: {e}")
+        else:
+            await ctx.followup.send("Please provide a valid image attachment.")
 
 
 

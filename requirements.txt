@@ -10,3 +10,5 @@ python-dotenv==1.0.1
 pytube==15.0.0
 Requests==2.32.3
 flask==3.0.3
+spotipy==2.24.0
+redis==5.0.7

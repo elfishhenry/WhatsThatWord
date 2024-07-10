@@ -3,7 +3,6 @@ from discord.ext import commands
 import requests
 from googlesearch import search
 from pytube import YouTube
-from bs4 import BeautifulSoup
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
 import os

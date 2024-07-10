@@ -5,10 +5,8 @@ import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 import os
-from urllib.parse import quote_plus
 import aiohttp
 from discord import Webhook
-import io
 from io import BytesIO
 
 

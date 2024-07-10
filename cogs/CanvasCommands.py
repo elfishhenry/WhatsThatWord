@@ -2,7 +2,6 @@ from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 import discord
 from discord.ext import commands
-import requests
 import os # Import the os module
 
 class CanvasCommands(commands.Cog):

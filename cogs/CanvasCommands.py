@@ -61,7 +61,7 @@ class CanvasCommands(commands.Cog):
         message_content = message.content  
         initial_font_size = 48
         font = ImageFont.truetype("/home/henry/PollBot/cogs/arial.ttf", initial_font_size)
-        min_font_size = 12  # Set your desired minimum font size
+        min_font_size = 7  # Set your desired minimum font size
 
         # Adjust font size until text fits within width or minimum size is reached
         while True:

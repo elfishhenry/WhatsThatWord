@@ -27,6 +27,9 @@ async def on_ready():
     print("------")
     status = discord.Game(f"Searching")
     await bot.change_presence(status=discord.Status.online, activity=status)
+    print("Status changed!")
+    print("------")
+    print("Ready!")
 
 bot.load_cogs("cogs")
 bot.run(os.getenv("DISCORD_TOKEN"))  # Replace with your bot token

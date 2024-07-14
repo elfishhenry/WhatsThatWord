@@ -15,7 +15,7 @@ GEMINI_PROJECT_ID = os.getenv("GEMINI_PROJECT_ID")
 # Access your API key as an environment variable.
 genai.configure(api_key=os.environ['GEMINI_API_KEY'])
 # Choose a model that's appropriate for your use case.
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-1.5-pro')
 
 
 
@@ -32,8 +32,9 @@ class Gemini(commands.Cog):
             discord.IntegrationType.user_install,
         }, 
     )
-    async def ai(self, ctx, prompt: str):
+    async def ai(self, ctx, query: str):
         await ctx.response.defer()
+        prompt=f"You are a helpful, wholesome, cheerful, and friendly discord bot.{query}"
         response = model.generate_content(prompt, stream=True)
         full_response = ""  
 
@@ -41,7 +42,7 @@ class Gemini(commands.Cog):
             full_response += chunk.text
 
         embed = discord.Embed(
-            title=f"Ai's response to {prompt}.",
+            title=f"Ai's response to {query}.",
             description=full_response,
             color=discord.Colour.dark_purple(),
         )

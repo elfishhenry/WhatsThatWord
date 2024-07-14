@@ -23,7 +23,6 @@ class Other(commands.Cog):
 
     @commands.user_command(
         name="Server Info",
-        description="Get information about the server the command is used in.",
         integration_types={
             discord.IntegrationType.guild_install,
             discord.IntegrationType.user_install,

@@ -81,12 +81,20 @@ class Other(commands.Cog):
                   }, 
                 )
     async def feedback(self, ctx, *, feedback: str):
-        await ctx.respond("Thanks for the feedback! I'll pass it along to the developer.")
+
+        embed = discord.Embed(title="Feedback!", description="Thanks for the feedback! I'll pass it along to the developer.", color=discord.Color.blue())
+        embed.add_field(name="WARNING!", value="False use of this command will get you blacklisted from using this command in future.", inline=False)
+
+        await ctx.respond(embed=embed)
         async with aiohttp.ClientSession() as session:
             
         # No need to create a separate session here
-            webhook = Webhook.from_url(webhook_url, session=session)  
-            await webhook.send(f"Feedback from {ctx.author.name} ({ctx.author.id}): {feedback}") 
+            webhook = Webhook.from_url(webhook_url, session=session)
+            feedback_embed = discord.Embed(title="Feedback", description=feedback, color=discord.Color.blue())
+            feedback_embed.set_author(name=ctx.author.name, icon_url=ctx.author.avatar.url)
+            feedback_embed.set_footer(text=f"ID: {ctx.author.id}")
+            
+            await webhook.send(embed=feedback_embed)
 
     # command to get the current time
     @commands.slash_command(

@@ -101,7 +101,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
 
     @commands.slash_command(
         name="google", 
-        description="Search Google and return the top 10 results",
+        description="Google things!",
         integration_types={
             discord.IntegrationType.guild_install,
             discord.IntegrationType.user_install,
@@ -109,7 +109,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
     )
     async def google_search(self, ctx: discord.ApplicationContext, query: str):
         await ctx.response.defer()  # Defer the response to give us time to get the search results
-        results = list(search(query, num_results=9))
+        results = list(search(query, num_results=10, safe='on'))
         #print(results)
 
         unique_results = []
@@ -119,7 +119,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
                 seen_urls.add(result)
                 unique_results.append(result)
 
-        embed = discord.Embed(title=f"Search results for '{query}'", color=discord.Color.blue())
+        embed = discord.Embed(title=f"Search results for:", description=f"'{query}'", color=discord.Color.blue())
         
         for i, result in enumerate(unique_results, start=1):
             embed.add_field(name=f"Result {i}", value=result, inline=False)

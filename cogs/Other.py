@@ -174,6 +174,30 @@ class Other(commands.Cog):
         except json.decoder.JSONDecodeError as e:
             await ctx.followup.send(f"Invalid response from Tenor API: {e}")
 
+    @commands.slash_command(name="vote", description="Information about how you can help this bot grow.")
+    async def vote(self, ctx):
+        
+        embed = discord.Embed(title="I am now on top.gg and DiscordBotList!", Description="To help me grow you can press one of the buttons below to vote for me!")
+
+        # Add the button to a view
+        view = discord.ui.View()
+        view.add_item(button)        
+        button = discord.ui.Button(
+            label="Top.gg",
+            url="https://top.gg/bot/1258057927734853684",
+            style=discord.ButtonStyle.link
+        )
+
+        # Add the button to a view
+        view = discord.ui.View()
+        view.add_item(button)        
+        button = discord.ui.Button(
+            label="DiscordBotList",
+            url="https://top.gg/bot/1258057927734853684",
+            style=discord.ButtonStyle.link
+        )
+
+        
     @commands.slash_command(
         name="image",
         description="Send an image as an attachment",

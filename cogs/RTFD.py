@@ -62,5 +62,6 @@ class RTFD(commands.Cog):
         else:
             raise error 
 
+
 def setup(bot):
     bot.add_cog(RTFD(bot))

@@ -177,7 +177,7 @@ class Other(commands.Cog):
     @commands.slash_command(name="vote", description="Information about how you can help this bot grow.")
     async def vote(self, ctx):
         
-        embed = discord.Embed(title="I am now on top.gg and DiscordBotList!", Description="To help me grow you can press one of the buttons below to vote for me!")
+        embed = discord.Embed(title="I am now on top.gg and DiscordBotList!", description="To help me grow you can press one of the buttons below to vote for me!")
 
         # Add the button to a view
         view = discord.ui.View()

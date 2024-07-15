@@ -197,6 +197,7 @@ class Other(commands.Cog):
             style=discord.ButtonStyle.link
         )
 
+        await ctx.respond(embed=embed, view=view)
         
     @commands.slash_command(
         name="image",

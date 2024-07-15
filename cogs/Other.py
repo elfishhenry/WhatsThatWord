@@ -179,23 +179,26 @@ class Other(commands.Cog):
         
         embed = discord.Embed(title="I am now on top.gg and DiscordBotList!", description="To help me grow you can press one of the buttons below to vote for me!")
 
-        # Add the button to a view
+        # Create the view first
         view = discord.ui.View()
-        view.add_item(button)        
+
+        # Define the first button
         button = discord.ui.Button(
             label="Top.gg",
             url="https://top.gg/bot/1258057927734853684",
             style=discord.ButtonStyle.link
         )
-
-        # Add the button to a view
-        view = discord.ui.View()
+        # Add the button to the view
         view.add_item(button)        
+
+        # Define the second button
         button = discord.ui.Button(
             label="DiscordBotList",
             url="https://top.gg/bot/1258057927734853684",
             style=discord.ButtonStyle.link
         )
+        # Add the button to the view
+        view.add_item(button)        
 
         await ctx.respond(embed=embed, view=view)
         

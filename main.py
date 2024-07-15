@@ -20,6 +20,7 @@ bot = ezcord.Bot(
     default_language="en",
 )
 
+
 @bot.slash_command(name="help", description="Lists all the commands and their descriptions.")
 async def help(ctx):
     await ctx.response.defer()

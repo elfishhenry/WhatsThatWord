@@ -34,7 +34,8 @@ class Gemini(commands.Cog):
     )
     async def ai(self, ctx, query: str):
         await ctx.response.defer()
-        prompt=f"You are a helpful, wholesome, cheerful, and friendly discord bot.{query}"
+        prompt = f"Please provide a short, informative answer to the following question: {query}"
+
         response = model.generate_content(prompt, stream=True)
         full_response = ""  
 
@@ -42,7 +43,8 @@ class Gemini(commands.Cog):
             full_response += chunk.text
 
         embed = discord.Embed(
-            title=f"Ai's response to {query}.",
+            #title=f"Ai's response to {query}.",
+            title="Searchy says:",
             description=full_response,
             color=discord.Colour.dark_purple(),
         )

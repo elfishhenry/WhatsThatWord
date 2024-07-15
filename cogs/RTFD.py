@@ -53,7 +53,7 @@ class RTFD(commands.Cog):
         owner_name = "<@844984362008838244>"
 
         # Send the message with the select menu, pinging the user
-        await ctx.respond(f"**{message.author.mention}, **Choose a documentation:** **Want a new documentation added? Tell **{owner_name}**!", view=view)
+        await ctx.respond(f"||{message.author.mention},|| **Choose a documentation:** Want a new documentation added? Tell **{owner_name}**!", view=view)
     
     @rtfd.error
     async def secret_error(self, ctx: discord.ApplicationContext, error: discord.DiscordException):

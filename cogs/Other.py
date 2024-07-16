@@ -27,8 +27,7 @@ class Other(commands.Cog):
             discord.IntegrationType.guild_install,
             discord.IntegrationType.user_install,
         },                           
-    ) 
-    @guild_only
+    )
     async def server_info(self, ctx, member: discord.Member):
         # Check if the command is used in a server
         if ctx.guild is None:

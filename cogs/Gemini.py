@@ -34,9 +34,8 @@ class Gemini(commands.Cog):
     )
     async def ai(self, ctx, query: str):
         await ctx.response.defer()
-        prompt = f"Please provide a short, informative answer to the following question: {query}"
 
-        response = model.generate_content(prompt, stream=True)
+        response = model.generate_content(query, stream=True)
         full_response = ""  
 
         for chunk in response:

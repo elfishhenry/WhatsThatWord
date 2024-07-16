@@ -8,7 +8,7 @@ import os
 import aiohttp
 from discord import Webhook
 from io import BytesIO
-
+from discord import guild_only
 
 load_dotenv()
 
@@ -28,6 +28,7 @@ class Other(commands.Cog):
             discord.IntegrationType.user_install,
         },                           
     ) 
+    @guild_only
     async def server_info(self, ctx, member: discord.Member):
         # Check if the command is used in a server
         if ctx.guild is None:

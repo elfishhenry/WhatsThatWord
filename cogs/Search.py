@@ -9,6 +9,8 @@ import os
 
 load_dotenv()
 
+ytdatav3 = os.getenv("YTDATA_API")
+
 class Search(commands.Cog): # create a class for our cog that inherits from commands.Cog
     # this class is used to create a cog, which is a module that can be added to the bot
 
@@ -28,7 +30,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
             limit = 10
             await ctx.send("The limit for the (the number you put in the box for limit) amount of results is 10, you're results have automatically been set to 10.")        
         else:
-            api_key = os.getenv("YTDATA_API")
+            api_key = ytdatav3
             youtube = build('youtube', 'v3', developerKey=api_key)
             request = youtube.search().list(
                 q=query,
@@ -48,6 +50,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
                     embed.set_footer(text="Click the title to watch on YouTube")
                     
                     await ctx.respond(content=video_url, embed=embed)
+
 
     @commands.slash_command(
         name="urban", 
@@ -113,7 +116,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
     )
     async def google_search(self, ctx: discord.ApplicationContext, query: str):
         await ctx.response.defer()  # Defer the response to give us time to get the search results
-        results = list(search(query, num_results=10, safe='on'))
+        results = list(search(query, num_results=10, safe='on', timeout=15))
         #print(results)
 
         unique_results = []

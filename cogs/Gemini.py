@@ -2,7 +2,7 @@ from googleapiclient.discovery import build
 from dotenv import load_dotenv
 import os
 import discord
-from discord.ext import commands
+from discord.ext import commands, bridge
 import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
@@ -27,7 +27,7 @@ class Gemini(commands.Cog):
     def __init__(self, bot): 
         self.bot = bot
 
-    @commands.slash_command(
+    @bridge.bridge_command(
         name="ai", 
         description="Ask ai something",
         integration_types={

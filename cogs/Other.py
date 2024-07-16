@@ -1,6 +1,6 @@
 import json
 import discord
-from discord.ext import commands
+from discord.ext import commands, bridge
 import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
@@ -8,7 +8,8 @@ import os
 import aiohttp
 from discord import Webhook
 from io import BytesIO
-from discord import guild_only
+
+
 
 load_dotenv()
 
@@ -72,7 +73,7 @@ class Other(commands.Cog):
         await ctx.respond(f"Message ID: `{message.id}`")
 
 
-    @commands.slash_command(
+    @bridge.bridge_command(
             name="feedback", 
             description="Send feedback to the bot developer, I might even respond personally.",
                 integration_types={
@@ -97,7 +98,7 @@ class Other(commands.Cog):
             await webhook.send(embed=feedback_embed)
 
     # command to get the current time
-    @commands.slash_command(
+    @bridge.bridge_command(
         name="time", 
         description="Get the current time",
         integration_types={
@@ -109,7 +110,7 @@ class Other(commands.Cog):
         await ctx.respond(f"The current time is {discord.utils.utcnow().strftime('%H:%M:%S')}")
 
     # command to get the current date
-    @commands.slash_command(
+    @bridge.bridge_command(
         name="date", 
         description="Get the current date",
         integration_types={
@@ -121,7 +122,7 @@ class Other(commands.Cog):
         await ctx.respond(f"The current date is {discord.utils.utcnow().strftime('%Y-%m-%d')}")
 
     # command to get the current date and time
-    @commands.slash_command(
+    @bridge.bridge_command(
         name="datetime", 
         description="Get the current date and time",
         integration_types={
@@ -132,7 +133,7 @@ class Other(commands.Cog):
     async def datetime(self, ctx):
         await ctx.respond(f"The current date and time is {discord.utils.utcnow().strftime('%Y-%m-%d %H:%M:%S')}")
 
-    @commands.slash_command(
+    @bridge.bridge_command(
         name="tenor", 
         description="Search for a GIF on Tenor",
         integration_types={
@@ -174,7 +175,7 @@ class Other(commands.Cog):
         except json.decoder.JSONDecodeError as e:
             await ctx.followup.send(f"Invalid response from Tenor API: {e}")
 
-    @commands.slash_command(name="vote", description="Information about how you can help this bot grow.")
+    @bridge.bridge_command(name="vote", description="Information about how you can help this bot grow.")
     async def vote(self, ctx):
         
         embed = discord.Embed(title="I am now on top.gg and DiscordBotList!", description="To help me grow you can press one of the buttons below to vote for me!")
@@ -202,7 +203,7 @@ class Other(commands.Cog):
 
         await ctx.respond(embed=embed, view=view)
         
-    @commands.slash_command(
+    @bridge.bridge_command(
         name="image",
         description="Send an image as an attachment",
         integration_types={

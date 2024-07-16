@@ -2,7 +2,7 @@ import discord
 import os
 import ezcord
 from dotenv import load_dotenv
-
+from discord.ext import bridge
 
 load_dotenv()
 
@@ -12,8 +12,14 @@ webhook_url = os.getenv("WEBHOOK_URL")
 if not webhook_url:
     webhook_url = input("Enter your webhook URL: ")
     
-bot = ezcord.Bot(
-    intents=discord.Intents.default(),
+intents = discord.Intents()
+intents.message_content = True    
+
+prefix="!"
+
+bot = ezcord.BridgeBot(
+    command_prefix=prefix,
+    intent=intents,
     #error_webhook_url = input("Error Webhook url: "),
     error_webhook_url = os.getenv("ERROR_WEBHOOK_URL"),
     language='auto',

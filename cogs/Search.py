@@ -1,11 +1,12 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, bridge
 import requests
 from googlesearch import search
 from pytube import YouTube
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
 import os
+
 
 load_dotenv()
 
@@ -17,7 +18,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
     def __init__(self, bot): # this is a special method that is called when the cog is loaded
         self.bot = bot
 
-    @commands.slash_command(
+    @bridge.bridge_command(
         name="youtube", 
         description="Search YouTube videos, returns a selected amount of results",
         integration_types={
@@ -51,7 +52,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
                 await ctx.respond(content=video_url, embed=embed)
 
 
-    @commands.slash_command(
+    @bridge.bridge_command(
         name="urban", 
         description="Get the definition of a term(word) from Urban Dictionary.",
         integration_types={
@@ -105,7 +106,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
         # Send the embed with the button as a view
         await ctx.respond(embed=embed, view=view)
 
-    @commands.slash_command(
+    @bridge.bridge_command(
         name="google", 
         description="Google things!",
         integration_types={

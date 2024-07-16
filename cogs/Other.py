@@ -75,7 +75,7 @@ class Other(commands.Cog):
 
     @commands.slash_command(
             name="feedback", 
-            description="Send feedback to the bot developer",
+            description="Send feedback to the bot developer, I might even respond personally.",
                 integration_types={
                     discord.IntegrationType.guild_install,
                     discord.IntegrationType.user_install,

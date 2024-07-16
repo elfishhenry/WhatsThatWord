@@ -4,6 +4,7 @@ import os
 import discord
 from discord.ext import commands
 import google.generativeai as genai
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 
 
@@ -16,6 +17,8 @@ GEMINI_PROJECT_ID = os.getenv("GEMINI_PROJECT_ID")
 genai.configure(api_key=os.environ['GEMINI_API_KEY'])
 # Choose a model that's appropriate for your use case.
 model = genai.GenerativeModel('gemini-1.5-pro')
+
+
 
 
 
@@ -35,7 +38,15 @@ class Gemini(commands.Cog):
     async def ai(self, ctx, query: str):
         await ctx.response.defer()
 
-        response = model.generate_content(query, stream=True)
+        response = model.generate_content(
+            query, 
+            stream=True,
+            # Safety config
+            safety_settings={
+                    HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
+                    HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
+                }
+            )
         full_response = ""  
 
         for chunk in response:

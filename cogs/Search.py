@@ -29,27 +29,26 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
         if limit > 10:
             limit = 10
             await ctx.send("The limit for the (the number you put in the box for limit) amount of results is 10, you're results have automatically been set to 10.")        
-        else:
-            api_key = ytdatav3
-            youtube = build('youtube', 'v3', developerKey=api_key)
-            request = youtube.search().list(
-                q=query,
-                part='snippet',
-                maxResults=limit  # Adjust maxResults to fetch up to 10 results
-            )
-            response = request.execute()
-            
-            for item in response['items']:
-                if item['id']['kind'] == 'youtube#video':
-                    video_id = item['id']['videoId']
-                    video_url = f"https://www.youtube.com/watch?v={video_id}"
-                    thumbnail_url = item['snippet']['thumbnails']['default']['url']
-                    
-                    embed = discord.Embed(title="YouTube Video", url=video_url, color=discord.Color.blue())
-                    embed.set_image(url=thumbnail_url)  # Set thumbnail as embed image
-                    embed.set_footer(text="Click the title to watch on YouTube")
-                    
-                    await ctx.respond(content=video_url, embed=embed)
+        api_key = ytdatav3
+        youtube = build('youtube', 'v3', developerKey=api_key)
+        request = youtube.search().list(
+            q=query,
+            part='snippet',
+            maxResults=limit  # Adjust maxResults to fetch up to 10 results
+        )
+        response = request.execute()
+        
+        for item in response['items']:
+            if item['id']['kind'] == 'youtube#video':
+                video_id = item['id']['videoId']
+                video_url = f"https://www.youtube.com/watch?v={video_id}"
+                thumbnail_url = item['snippet']['thumbnails']['default']['url']
+                
+                embed = discord.Embed(title="YouTube Video", url=video_url, color=discord.Color.blue())
+                embed.set_image(url=thumbnail_url)  # Set thumbnail as embed image
+                embed.set_footer(text="Click the title to watch on YouTube")
+                
+                await ctx.respond(content=video_url, embed=embed)
 
 
     @commands.slash_command(

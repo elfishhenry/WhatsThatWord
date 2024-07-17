@@ -13,7 +13,7 @@ from io import BytesIO
 
 load_dotenv()
 
-TENOR_API_KEY = os.getenv("GCP_API_KEY")
+TENOR_API_KEY = os.getenv("TENOR_API_KEY")
 webhook_url = os.getenv("WEBHOOK_URL")
 
 

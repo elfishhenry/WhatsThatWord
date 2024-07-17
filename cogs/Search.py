@@ -10,7 +10,7 @@ import os
 
 load_dotenv()
 
-ytdatav3 = os.getenv("GCP_API_KEY")
+ytdatav3 = os.getenv("YTDATA_API")
 
 class Search(commands.Cog): # create a class for our cog that inherits from commands.Cog
     # this class is used to create a cog, which is a module that can be added to the bot

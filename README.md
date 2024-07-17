@@ -5,3 +5,6 @@
 <a href="https://top.gg/bot/1258057927734853684">
   <img src="https://top.gg/api/widget/1258057927734853684.svg">
 </a>
+<a href="https://top.gg/bot/1258057927734853684">
+  <img src="https://top.gg/api/widget/servers/1258057927734853684.svg">
+</a>

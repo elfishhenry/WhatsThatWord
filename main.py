@@ -62,5 +62,6 @@ async def help(ctx):
     await ctx.respond(embed=embed)
 
 
+
 bot.load_cogs("cogs")
 bot.run(os.getenv("DISCORD_TOKEN"))  # Replace with your bot token

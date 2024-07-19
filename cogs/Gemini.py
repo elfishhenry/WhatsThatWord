@@ -16,9 +16,7 @@ GEMINI_PROJECT_ID = os.getenv("GEMINI_PROJECT_ID")
 # Access your API key as an environment variable.
 genai.configure(api_key=os.environ['GEMINI_API_KEY'])
 # Choose a model that's appropriate for your use case.
-model = genai.GenerativeModel('gemini-1.5-pro')
-
-
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 
 

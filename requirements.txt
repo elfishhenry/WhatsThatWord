@@ -9,5 +9,4 @@ python-dotenv==1.0.1
 pytube==15.0.0
 Requests==2.32.3
 google-generativeai
-google-books-api-wrapper-1.0.5s
-pokepy
+google-books-api-wrapper==1.0.5

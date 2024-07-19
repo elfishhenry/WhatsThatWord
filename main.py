@@ -63,4 +63,4 @@ async def help(ctx):
 
 
 bot.load_cogs("cogs")
-bot.run(os.getenv("DISCORD_TOKEN"))  # Replace with your bot token
+bot.run(os.getenv("testing_token"))  # Replace with your bot token

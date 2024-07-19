@@ -1,3 +1,4 @@
+from ntpath import join
 import discord
 from discord.ext import commands
 from discord.commands import option
@@ -29,21 +30,35 @@ class pokemon(commands.Cog):
             "Abilities",
             "Stats",
             "Types",
-            "Description",
             "Evolution",
         ],
-        required=False,
+        required=True,
     )
     async def pokemon(self, ctx, name: str, option: str = None):
         pokename = name
         try:
-            pokemon = poke.get_pokemon(pokename)
-        except pokepy.InvalidStatusCodeError:  # Catch the correct error
+            pokemon_results = poke.get_pokemon(pokename)
+        except pokepy.InvalidStatusCodeError:
             await ctx.respond(f"Pokemon '{pokename}' not found.")
             return
+        except TypeError:
+            await ctx.respond(f"Multiple Pokemon found with the name '{pokename}'. Please be more specific.")
+            return
+
+        # Handle ambiguous names
+        if isinstance(pokemon_results, list):
+            if len(pokemon_results) > 1:
+                # Display options to the user
+                options = [f"{i+1}. {result.name.capitalize()}" for i, result in enumerate(pokemon_results)]
+                await ctx.respond(f"Multiple Pokemon found. Please choose one:\n{join(options)}")
+                return
+            else:
+                # Default to the first result
+                pokemon = pokemon_results[0]
+        else:
+            pokemon = pokemon_results
 
         embed = discord.Embed(title=pokename, color=discord.Color.blue())
-        embed.set_thumbnail(url=f"https://assets.pokemon.com/assets/cms2/img/pokedex/full/{pokemon.id:03d}.png")
         if option == "Abilities":
             abilities = [ability.ability.name.capitalize() for ability in pokemon.abilities]
             embed.add_field(name="Abilities", value=", ".join(abilities), inline=False)
@@ -53,15 +68,6 @@ class pokemon(commands.Cog):
         elif option == "Types":
             types = [type_.type.name.capitalize() for type_ in pokemon.types]
             embed.add_field(name="Types", value=", ".join(types), inline=False)
-        elif option == "Description":
-            description = pokemon.species.flavor_text_entries[0].flavor_text
-            embed.add_field(name="Description", value=description, inline=False)
-        elif option == "Evolution":
-            evolution_chain = poke.get_evolution_chain(pokemon.species.evolution_chain.url)
-            evolution_chain_list = []
-            for chain_link in evolution_chain.chain.evolves_to:
-                evolution_chain_list.append(chain_link.species.name.capitalize())
-            embed.add_field(name="Evolution", value=", ".join(evolution_chain_list), inline=False)
         else:
             # Default to showing basic information
             embed.add_field(name="ID", value=pokemon.id, inline=False)

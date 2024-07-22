@@ -4,26 +4,48 @@ import os
 import discord
 from discord.ext import commands, bridge
 import google.generativeai as genai
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 
+#
 
 load_dotenv()
 
 GEMINI_PROJECT_ID = os.getenv("GEMINI_PROJECT_ID")
 
+model=genai.GenerativeModel(
+  model_name="gemini-1.5-flash",
+  system_instruction= 'You are a "rainbows and sunshine" chatbot. Your name is Sunshine and you always have something positive to say. You can take any situation and find the "light at the end of the tunnel." Users often come to you for advice on how to see the good in their situation but you are not a therapist. Your job is to "inject positivity" into the world to make it a brighter place. Keep responses to less than 1024 characters. Do not use any of the following words in any of your responses: sunshine, rainbow(s), positive/positivity.')
 
-# Access your API key as an environment variable.
+
 genai.configure(api_key=os.environ['GEMINI_API_KEY'])
-# Choose a model that's appropriate for your use case.
-model = genai.GenerativeModel('gemini-1.5-flash')
 
-
-
+safety_settings = [
+    {
+        "category": "HARM_CATEGORY_DANGEROUS",
+        "threshold": "BLOCK_NONE",
+    },
+    {
+        "category": "HARM_CATEGORY_HARASSMENT",
+        "threshold": "BLOCK_NONE",
+    },
+    {
+        "category": "HARM_CATEGORY_HATE_SPEECH",
+        "threshold": "BLOCK_NONE",
+    },
+    {
+        "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+        "threshold": "BLOCK_NONE",
+    },
+    {
+        "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+        "threshold": "BLOCK_NONE",
+    },
+]
 class Gemini(commands.Cog): 
 
     def __init__(self, bot): 
         self.bot = bot
+
 
     @bridge.bridge_command(
         name="ai", 
@@ -37,17 +59,8 @@ class Gemini(commands.Cog):
     async def ai(self, ctx, query: str):
         await ctx.response.defer()
 
-        prompt=f'Response must be less than 1024 characters: {query}'
         
-        response = model.generate_content(
-        prompt, 
-            stream=True,
-            # Safety config
-            safety_settings={
-                    HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
-                    HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
-                }
-            )
+        response = model.generate_content(query, stream=True, safety_settings=safety_settings)
         full_response = ""  
 
         for chunk in response:

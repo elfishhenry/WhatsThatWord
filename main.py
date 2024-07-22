@@ -4,6 +4,7 @@ import ezcord
 from dotenv import load_dotenv
 from discord.ext import bridge
 
+
 load_dotenv()
 
 webhook_url = os.getenv("WEBHOOK_URL")

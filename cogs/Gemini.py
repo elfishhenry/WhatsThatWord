@@ -33,11 +33,14 @@ class Gemini(commands.Cog):
             discord.IntegrationType.user_install,
         }, 
     )
+    
     async def ai(self, ctx, query: str):
         await ctx.response.defer()
 
+        prompt=f'Response must be less than 1024 characters: {query}'
+        
         response = model.generate_content(
-            query, 
+        prompt, 
             stream=True,
             # Safety config
             safety_settings={

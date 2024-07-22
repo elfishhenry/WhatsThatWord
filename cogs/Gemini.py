@@ -37,7 +37,7 @@ class Gemini(commands.Cog):
     async def ai(self, ctx, query: str):
         await ctx.response.defer()
 
-        prompt=F'Response must be less than 1024 characters: {query}'
+        prompt=f'Response must be less than 1024 characters: {query}'
         
         response = model.generate_content(
         prompt, 

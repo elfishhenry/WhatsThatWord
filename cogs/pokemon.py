@@ -76,5 +76,13 @@ class pokemon(commands.Cog):
 
         await ctx.respond(embed=embed)
 
+    @pokemon.error
+    async def pokemon_error(self, ctx: discord.ApplicationContext, error: discord.DiscordException):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.respond("Please provide a Pokemon name.")
+        else:
+            raise error
+
+
 def setup(bot):
     bot.add_cog(pokemon(bot))

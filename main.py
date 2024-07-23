@@ -30,7 +30,7 @@ bot = ezcord.BridgeBot(
     default_language="en",    
 )
 # Add the blacklist functionality
-@bot.add_blacklist(admin_server_ids)
+bot.add_blacklist(admin_server_ids)
 
 @bot.event
 async def on_ready():
@@ -48,4 +48,4 @@ async def on_ready():
 
 
 bot.load_cogs("cogs")
-bot.run(os.getenv("testing_token"))  # Replace with your bot token
+bot.run(os.getenv("DISCORD_TOKEN"))  # Replace with your bot token

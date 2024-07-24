@@ -8,7 +8,7 @@ import os
 import aiohttp
 from discord import Webhook
 from io import BytesIO
-
+from discord.commands import option
 
 
 load_dotenv()
@@ -225,7 +225,32 @@ class Other(commands.Cog):
 
         await ctx.respond(embed=embed, view=view)
         
-    @bridge.bridge_command(
+    @commands.slash_command(
+        name="report",
+        description="Report someone if they're violating laws or terms.",
+    )
+    async def report(self, ctx, 
+                    id: discord.Member,  # Member ID Argument (Required)
+                    reason: str = None,  # Optional Evidence String
+                    attached_evidence: discord.Attachment = None  # Optional Evidence Attachment
+                    ):
+        evidence = reason
+        embed = discord.Embed(title="Report", description="I've send the report, it'll be reviewed.", color=discord.Color.blue())
+        embed.add_field(name="# WARNING!", value="False use of this command will get you blacklisted from the bot again!", inline=False)
+
+        await ctx.respond(embed=embed)
+        async with aiohttp.ClientSession() as session:
+            
+        # No need to create a separate session here
+            webhook = Webhook.from_url(webhook_url, session=session)
+            feedback_embed = discord.Embed(title="Report", description=f"Reported user: {id.mention} Evidence/reason: {evidence}", color=discord.Color.blue())
+            feedback_embed.set_author(name=ctx.author.name, icon_url=ctx.author.avatar.url)
+            feedback_embed.set_footer(text=f"ID: {ctx.author.id} <@844984362008838244>")
+            
+            await webhook.send(f"Image evidence: {attached_evidence}")
+            await webhook.send(embed=feedback_embed)
+
+    @commands.slash_command(
         name="image",
         description="Send an image as an attachment",
         integration_types={

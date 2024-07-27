@@ -2,7 +2,7 @@ from googleapiclient.discovery import build
 from dotenv import load_dotenv
 import os
 import discord
-from discord.ext import commands, bridge
+from discord.ext import commands
 import google.generativeai as genai
 
 
@@ -47,7 +47,7 @@ class Gemini(commands.Cog):
         self.bot = bot
 
 
-    @bridge.bridge_command(
+    @commands.slash_command(
         name="ai", 
         description="Ask ai something",
         integration_types={

@@ -1,6 +1,6 @@
 import json
 import discord
-from discord.ext import commands, bridge
+from discord.ext import commands
 import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
@@ -73,7 +73,7 @@ class Other(commands.Cog):
         await ctx.respond(f"Message ID: `{message.id}`")
 
 
-    @bridge.bridge_command(
+    @commands.slash_command(
             name="feedback", 
             description="Send feedback to the bot developer, I might even respond personally.",
                 integration_types={
@@ -98,7 +98,7 @@ class Other(commands.Cog):
             await webhook.send(embed=feedback_embed)
 
     # command to get the current time
-    @bridge.bridge_command(
+    @commands.slash_command(
         name="time", 
         description="Get the current time",
         integration_types={
@@ -110,7 +110,7 @@ class Other(commands.Cog):
         await ctx.respond(f"The current time is {discord.utils.utcnow().strftime('%H:%M:%S')}")
 
     # command to get the current date
-    @bridge.bridge_command(
+    @commands.slash_command(
         name="date", 
         description="Get the current date",
         integration_types={
@@ -122,7 +122,7 @@ class Other(commands.Cog):
         await ctx.respond(f"The current date is {discord.utils.utcnow().strftime('%Y-%m-%d')}")
 
     # command to get the current date and time
-    @bridge.bridge_command(
+    @commands.slash_command(
         name="datetime", 
         description="Get the current date and time",
         integration_types={
@@ -155,7 +155,7 @@ class Other(commands.Cog):
 
         await ctx.respond(embed=embed)
 
-    @bridge.bridge_command(
+    @commands.slash_command(
         name="tenor", 
         description="Search for a GIF on Tenor",
         integration_types={
@@ -197,7 +197,7 @@ class Other(commands.Cog):
         except json.decoder.JSONDecodeError as e:
             await ctx.followup.send(f"Invalid response from Tenor API: {e}")
 
-    @bridge.bridge_command(name="vote", description="Information about how you can help this bot grow.")
+    @commands.slash_command(name="vote", description="Information about how you can help this bot grow.")
     async def vote(self, ctx):
         
         embed = discord.Embed(title="I am now on top.gg and DiscordBotList!", description="To help me grow you can press one of the buttons below to vote for me!")

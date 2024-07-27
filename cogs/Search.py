@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands, bridge
+from discord.ext import commands
 import requests
 from googlesearch import search
 from pytube import YouTube
@@ -18,7 +18,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
     def __init__(self, bot): # this is a special method that is called when the cog is loaded
         self.bot = bot
 
-    @bridge.bridge_command(
+    @commands.slash_command(
         name="youtube", 
         description="Search YouTube videos, returns a selected amount of results",
         integration_types={
@@ -29,30 +29,42 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
     async def youtube(self, ctx, *, query: str, limit: int):
         if limit > 10:
             limit = 10
-            await ctx.send("The limit for the (the number you put in the box for limit) amount of results is 10, you're results have automatically been set to 10.")        
+                    # Check if the bot has the "Send Messages" permission in the current channel
+            if ctx.channel.permissions_for(ctx.me).send_messages:
+                await ctx.send("The limit for the (the number you put in the box for limit) amount of results is 10, you're results have automatically been set to 10.")
+            else:
+                await ctx.respond("I don't have permission to send messages in this channel.")
+                return  # Stop execution if no permission        
         api_key = ytdatav3
         youtube = build('youtube', 'v3', developerKey=api_key)
         request = youtube.search().list(
             q=query,
             part='snippet',
-            maxResults=limit  # Adjust maxResults to fetch up to 10 results
+            maxResults=limit
         )
-        response = request.execute()
-        
-        for item in response['items']:
-            if item['id']['kind'] == 'youtube#video':
-                video_id = item['id']['videoId']
-                video_url = f"https://www.youtube.com/watch?v={video_id}"
-                thumbnail_url = item['snippet']['thumbnails']['default']['url']
-                
-                embed = discord.Embed(title="YouTube Video", url=video_url, color=discord.Color.blue())
-                embed.set_image(url=thumbnail_url)  # Set thumbnail as embed image
-                embed.set_footer(text="Click the title to watch on YouTube")
-                
-                await ctx.respond(content=video_url, embed=embed)
+        try:
+            response = request.execute()
+            
+            for item in response['items']:
+                if item['id']['kind'] == 'youtube#video':
+                    video_id = item['id']['videoId']
+                    video_url = f"https://www.youtube.com/watch?v={video_id}"
+                    thumbnail_url = item['snippet']['thumbnails']['default']['url']
+                    
+                    embed = discord.Embed(title="YouTube Video", url=video_url, color=discord.Color.blue())
+                    embed.set_image(url=thumbnail_url)
+                    embed.set_footer(text="Click the title to watch on YouTube")
+                    
+                    await ctx.respond(content=video_url, embed=embed)
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 403:
+                await ctx.respond("I don't have permission to access YouTube data. This is a developer issue.")
+            else:
+                await ctx.respond(f"An error occurred while searching YouTube: {e}")
+        except Exception as e:
+            await ctx.respond(f"An error occurred while searching YouTube: {e}")
 
-
-    @bridge.bridge_command(
+    @commands.slash_command(
         name="urban", 
         description="Get the definition of a term(word) from Urban Dictionary.",
         integration_types={
@@ -106,7 +118,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
         # Send the embed with the button as a view
         await ctx.respond(embed=embed, view=view)
 
-    @bridge.bridge_command(
+    @commands.slash_command(
         name="google", 
         description="Google things!",
         integration_types={
@@ -131,7 +143,7 @@ class Search(commands.Cog): # create a class for our cog that inherits from comm
         for i, result in enumerate(unique_results, start=1):
             embed.add_field(name=f"Result {i}", value=result, inline=False)
 
-        await ctx.followup.send(embed=embed)
+        await ctx.respond(embed=embed)
    
 def setup(bot): # this is called by Pycord to setup the cog
     bot.add_cog(Search(bot)) # add the cog to the bot

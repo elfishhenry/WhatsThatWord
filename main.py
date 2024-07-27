@@ -1,35 +1,31 @@
 import discord
 import os
-import ezcord  # Or replace with import discord from discord.py
+import ezcord
 from dotenv import load_dotenv
-from discord.ext import bridge
+from discord.ext import commands
 
 
 load_dotenv()
 
 webhook_url = os.getenv("ERROR_WEBHOOK_URL")
 
-# If the webhook URL is not set, prompt the user for input
+
 if not webhook_url:
     webhook_url = input("Enter your webhook URL: ")
 
-intents = discord.Intents()
-intents.message_content = True  # Required for slash commands
-
-prefix = "!"
 
 # Get the admin server IDs from the environment variable
 admin_server_ids = [int(id) for id in os.getenv("ADMIN_SERVER_IDS", "").split(",")]
 
-bot = ezcord.BridgeBot(  # Or use discord.ext.commands.Bot from discord.py
-    command_prefix=prefix,
-    intent=intents,
-    error_webhook_url=webhook_url,  # Double-check the URL
+bot = ezcord.Bot(  
+    intents=discord.Intents.default(),
+    error_webhook_url=webhook_url,
     language='auto',
     default_language="en",
 )
 # Add the blacklist functionality
 bot.add_blacklist(admin_server_ids)
+
 
 @bot.event
 async def on_ready():
@@ -45,4 +41,4 @@ async def on_ready():
 
 
 bot.load_cogs("cogs")
-bot.run(os.getenv("DISCORD_TOKEN"))  # Replace with your bot token
+bot.run(os.getenv("testing_token"))

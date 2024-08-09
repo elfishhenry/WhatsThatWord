@@ -1,4 +1,4 @@
-aiohttp==3.9.5
+aiohttp==3.10.2
 beautifulsoup4==4.12.3
 py-cord==2.6.0
 ezcord==0.6.5
